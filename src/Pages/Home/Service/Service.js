@@ -8,6 +8,7 @@ const Service = ({ service }) => {
   const navigateToServiceDetail = (id) => {
     navigate(`/service/${id}`);
   };
+
   return (
     <div className="service">
       <img src={img} className="card-img-top" alt="" />
