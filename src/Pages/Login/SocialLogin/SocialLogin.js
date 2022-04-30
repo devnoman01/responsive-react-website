@@ -7,7 +7,7 @@ import {
   useSignInWithGithub,
 } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
   const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
@@ -15,6 +15,8 @@ const SocialLogin = () => {
   const [signInWithGithub, userGithub, loadingGithub, errorGithub] =
     useSignInWithGithub(auth);
   const navigate = useNavigate();
+  const location = useLocation();
+  let from = location.state?.from?.pathname || "/";
   let errorElement;
 
   if (errorGoogle || errorGithub) {
@@ -26,7 +28,7 @@ const SocialLogin = () => {
   }
 
   if (userGoogle || userGithub) {
-    navigate("/home");
+    navigate(from, { replace: true });
   }
 
   return (
