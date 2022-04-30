@@ -1,11 +1,12 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const AddService = () => {
   const { register, handleSubmit } = useForm();
   const onSubmit = (data) => {
     console.log(data);
-    const url = `http://localhost:5000/service`;
+    const url = `https://safe-coast-26904.herokuapp.com/service`;
     fetch(url, {
       method: "POST",
       headers: {
@@ -15,6 +16,7 @@ const AddService = () => {
     })
       .then((res) => res.json())
       .then((result) => {
+        toast("New Service Added");
         console.log(result);
       });
   };
