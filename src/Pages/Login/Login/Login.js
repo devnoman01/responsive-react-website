@@ -10,11 +10,13 @@ import "react-toastify/dist/ReactToastify.css";
 import auth from "../../../firebase.init";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import axios from "axios";
+import useToken from "../../../hooks/useToken";
 
 const Login = () => {
   const [signInWithEmailAndPassword, user, loading, error] =
     useSignInWithEmailAndPassword(auth);
   const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+  const [token] = useToken(user);
 
   const emailRef = useRef("");
   const passwordRef = useRef("");
@@ -36,9 +38,11 @@ const Login = () => {
     );
     console.log(data);
     localStorage.setItem("accessToken", data.accessToken);
-    navigate(from, { replace: true });
   };
 
+  if (token) {
+    navigate(from, { replace: true });
+  }
   useEffect(() => {
     if (user) {
     }

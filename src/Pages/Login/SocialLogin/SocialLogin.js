@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import google from "../../../images//social/google-logo.png";
 import facebook from "../../../images//social/facebook-logo.png";
 import github from "../../../images//social/github-logo.png";
@@ -8,12 +8,14 @@ import {
 } from "react-firebase-hooks/auth";
 import auth from "../../../firebase.init";
 import { useLocation, useNavigate } from "react-router-dom";
+import useToken from "../../../hooks/useToken";
 
 const SocialLogin = () => {
   const [signInWithGoogle, userGoogle, loadingGoogle, errorGoogle] =
     useSignInWithGoogle(auth);
   const [signInWithGithub, userGithub, loadingGithub, errorGithub] =
     useSignInWithGithub(auth);
+  const [token] = useToken(userGoogle || userGithub);
   const navigate = useNavigate();
   const location = useLocation();
   let from = location.state?.from?.pathname || "/";
@@ -27,9 +29,13 @@ const SocialLogin = () => {
     );
   }
 
-  if (userGoogle || userGithub) {
+  if (token) {
     navigate(from, { replace: true });
   }
+  useEffect(() => {
+    if (userGoogle || userGithub) {
+    }
+  });
 
   return (
     <div>

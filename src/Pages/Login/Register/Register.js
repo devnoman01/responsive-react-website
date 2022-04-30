@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, FormLabel } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -9,10 +9,12 @@ import auth from "../../../firebase.init";
 import "./Register.css";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import FormCheckLabel from "react-bootstrap/esm/FormCheckLabel";
+import useToken from "../../../hooks/useToken";
 
 const Register = () => {
   const [agree, setAgree] = useState(false);
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
+
   const navigate = useNavigate();
 
   const [createUserWithEmailAndPassword, user, loading, error] =
@@ -25,12 +27,19 @@ const Register = () => {
     const password = event.target.password.value;
     await createUserWithEmailAndPassword(email, password);
     await updateProfile({ displayName: name });
-    navigate("/home");
   };
+  const [token] = useToken(user);
+  if (token) {
+    navigate("/home");
+  }
 
   const navigateLogin = () => {
     navigate("/login");
   };
+  useEffect(() => {
+    if (user) {
+    }
+  });
 
   return (
     <div className="container w-50 mx-auto mt-5 mb-3 register-form">
